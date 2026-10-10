@@ -1,13 +1,10 @@
-# SUMMARK
+# SUMMARK: Auditor-Assisted Summary-Channel Verification for Hosted LLM Identity Substitution
 
-SUMMARK detects model substitution from reasoning summaries. Each model identity
-carries a distinct watermark greenlist, and a LoRA summary adapter trained with a
-watermark and a separation loss keeps that carrier detectable after
-summarization. A summary is scored against every candidate identity, and a
-declared model that scores below the best alternative indicates substitution.
+This repository contains the **official implementation of SUMMARK**, accompanying our paper **"Auditor-Assisted Summary-Channel Verification for Hosted LLM Identity Substitution."**
 
-This repository reproduces the main substitution detection experiment across
-Math, General, and Code, with BERT, GPT-2, and T5 classifiers as baselines.
+SUMMARK detects model identity substitution through user-visible reasoning summaries. It assigns identity-specific watermark carriers and trains lightweight LoRA adapters to embed detectable signals into the summary channel. At audit time, a keyed statistical test verifies whether the released summary is consistent with the claimed model identity, while scores across enrolled identities support model attribution.
+
+This repository provides the code to reproduce the main substitution detection experiments across **Math, General, and Code**, including comparisons with BERT, GPT-2, and T5 classifier baselines.
 
 ## Setup
 
