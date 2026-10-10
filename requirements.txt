@@ -1,0 +1,14 @@
+# Versions observed in the source project's py311 environment (not a historical lockfile).
+# Install a CUDA-compatible torch build for your machine separately if needed.
+torch==2.6.0
+transformers==4.56.2
+tokenizers==0.22.1
+datasets==4.1.1
+peft==0.17.1
+accelerate==1.10.1
+numpy==2.3.3
+scipy==1.16.3
+scikit-learn==1.7.2
+tqdm==4.67.1
+sentencepiece==0.2.1
+protobuf==6.33.1

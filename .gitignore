@@ -1,0 +1,9 @@
+__pycache__/
+*.py[cod]
+.venv/
+data/
+fine-tune/adapters/
+baselines/ckpt/
+results/
+*.log
+.env

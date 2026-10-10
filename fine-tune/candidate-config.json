@@ -1,0 +1,25 @@
+{
+  "candidates": [
+    {
+      "model_id": "qwen-3b",
+      "tokenizer": "Qwen/Qwen2.5-3B-Instruct",
+      "orth_mask": "data/secure/orthogonal_greenlists_qwen.json"
+    },
+    {
+      "model_id": "qwen-7b",
+      "tokenizer": "Qwen/Qwen2.5-7B-Instruct",
+      "orth_mask": "data/secure/orthogonal_greenlists_qwen.json"
+    },
+    {
+      "model_id": "llama-3b",
+      "tokenizer": "meta-llama/Llama-3.2-3B-Instruct",
+      "orth_mask":"data/secure/orthogonal_greenlists_qwen.json"
+    },
+    {
+      "model_id": "qwen-1.5b",
+      "tokenizer": "Qwen/Qwen2.5-1.5B-Instruct",
+      "orth_mask":"data/secure/orthogonal_greenlists_qwen.json"
+    }
+
+  ]
+}
