@@ -21,7 +21,7 @@ pip install -r requirements.txt
 
 Install a PyTorch CUDA build matching your GPU. Model and dataset downloads need
 network access, and `meta-llama/Llama-3.2-3B-Instruct` requires Hugging Face
-access approval. The reported experiments ran on one 48 GB NVIDIA RTX 8000.
+access approval.
 
 ## Run
 
@@ -66,8 +66,6 @@ mask and seed.
 | General | `glaiveai/reasoning-v1-20m` |
 | Code | `open-r1/OpenThoughts-114k-Code_decontaminated` |
 
-The seven directed substitutions, written as declared → actual, are Q7→Q3,
-Q7→Q1.5, Q3→Q1.5, Q3→L3, L3→Q3, Q7→L3, and L3→Q1.5.
 
 ### Hyperparameters
 
@@ -85,34 +83,8 @@ additive logit offset.
 | `--temperature` | 0.7 | Teacher sampling temperature |
 | `--lr` | 2e-4 | Adapter learning rate |
 | `--wm-lambda` / `--sep-lambda` | 0.5 / 0.5 | Watermark and separation loss weights |
-| `--seed` | 42 | Sampling, training, and the 80/20 split |
+| `--seed` | 42 | Sampling and training |
 
-`--seed` on `run_substitution_detection.py` drives teacher sampling, adapter
-training, student generation, the split, and the baselines together. Adapter
-training and student generation derive the same 80/20 split from it, so students
-are only evaluated on held-out prompts.
-
-Baselines train a pooling head over a frozen backbone; pooling, batch size, and
-the per-domain training ratios are in `run_substitution_detection.py`.
-
-## Outputs
-
-| Output | Location |
-| --- | --- |
-| Student summaries | `data/student/<dataset>/<model-id>.jsonl` |
-| SUMMARK per-example scores and per-pair metrics | `results/<dataset>/summark.jsonl` |
-| Baseline per-pair metrics | `baselines/ckpt/<dataset>/textclf_<backbone>/metrics_pairs.json` |
-
-`summarize_detection_results.py` reads these and reports, per method and domain,
-the mean TPR at nominal 1% FPR, the minimum TPR across the seven pairs, and the
-macro-average ROC-AUC. `--root` points it at another directory with the same
-layout.
-
-SUMMARK scores substitution as `max_other_z - z_declared` and uses exact
-empirical ROC-AUC. Its `TPR@FPR=1%` is read off the evaluated score ROC, while the
-baselines calibrate a threshold on validation data and apply it to test data. The
-two protocols are not interchangeable, and a nominal 1% FPR does not guarantee a
-1% observed test FPR.
 
 ## Code layout
 
@@ -127,20 +99,7 @@ two protocols are not interchangeable, and a nominal 1% FPR does not guarantee a
 | `baselines/text_classify.py` | BERT, GPT-2, and T5 baselines |
 | `summarize_detection_results.py` | Aggregates the reported table |
 
-## Notes
 
-This release contains code only; masks, teacher data, adapters, and student
-summaries are produced by the pipeline. Every stage is seeded, but GPU sampling
-is not bit-reproducible across hardware, driver, or library versions.
-
-Greenlists are built over the 151,665 token ids of `Qwen/Qwen2.5-3B-Instruct`. A
-candidate with a smaller vocabulary never sees the out-of-range ids, so detection
-truncates the greenlist to that candidate's own vocabulary before computing the
-z-test's null green rate. Earlier code derived that rate from
-`tokenizer.vocab_size` and the untruncated greenlist, overstating it by 18% for
-`llama-3b` and shifting its null z by about −4.5 on a 1,600-token summary. The
-four pairs involving `llama-3b` therefore differ from previously published
-values; the three Qwen-only pairs are unaffected.
 
 ## Citation
 
